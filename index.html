@@ -2,98 +2,243 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VALENTINE VISION 2026 💖</title>
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Outfit:wght@600;900&display=swap" rel="stylesheet">
     <style>
-        :root { --pink-border: #ff85a1; --neon-green: #39ff14; --premium-black: #1a1a1a; --gold: #ffcc00; --bg-gradient: radial-gradient(circle, #fbc2eb 0%, #a6c1ee 100%); }
+        :root {
+            --pink-border: #ff85a1;
+            --neon-green: #39ff14;
+            --premium-black: #1a1a1a;
+            --gold: #ffcc00;
+            --bg-gradient: radial-gradient(circle, #fbc2eb 0%, #a6c1ee 100%);
+        }
+
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg-gradient); margin: 0; padding: 20px 15px; font-family: 'Outfit', sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; overflow-x: hidden; }
-        
-        /* THE VISIBILITY FIX: Ensuring the Start Button is seen on Mobile */
-        #overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; cursor: pointer; text-align: center; }
-        .tap-text { font-family: 'Archivo Black'; font-size: 2rem; color: var(--neon-green); text-shadow: 2px 2px #000; margin-bottom: 20px; }
-        
-        .main-card { background: rgba(255, 255, 255, 0.98); width: 100%; max-width: 440px; border: 12px solid var(--pink-border); border-radius: 50px; padding: 30px 20px; box-shadow: 0 25px 50px rgba(255, 133, 161, 0.4); position: relative; z-index: 10; text-align: center; display: none; }
-        .karaoke-box { background: var(--premium-black); border-radius: 25px; padding: 25px 15px; margin-bottom: 25px; border: 5px solid var(--gold); }
-        .score-text { color: var(--neon-green); font-family: 'Courier New', monospace; font-size: 2rem; font-weight: 900; text-shadow: 0 0 10px var(--neon-green); }
-        
-        .btn { padding: 18px; border-radius: 20px; border: 4px solid var(--premium-black); font-family: 'Archivo Black'; font-size: 1rem; cursor: pointer; width: 100%; margin-bottom: 12px; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .btn-yes { background: var(--neon-green); position: relative; }
-        .btn-no { background: #ff4d6d; color: white; position: relative; }
-        
+
+        body {
+            background: var(--bg-gradient);
+            margin: 0;
+            padding: 20px 15px;
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ONLY FIX: Increased z-index so it's not "static" on mobile */
+        #overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-gradient); z-index: 9999;
+            display: flex; flex-direction: column; justify-content: space-between;
+            align-items: center; cursor: pointer; text-align: center;
+            padding: 80px 20px;
+        }
+
+        .tap-text { font-family: 'Archivo Black'; font-size: 1.5rem; color: white; text-shadow: 2px 2px var(--premium-black); letter-spacing: 2px; }
+        .kabahan-text { font-family: 'Outfit'; font-weight: 900; font-size: 1.2rem; color: var(--premium-black); letter-spacing: 5px; text-transform: uppercase; opacity: 0.8; }
+
+        .garland {
+            position: fixed; width: 100%; text-align: center;
+            font-size: 24px; letter-spacing: 12px; z-index: 5;
+            opacity: 0.9; pointer-events: none;
+        }
+        .top-garland { top: 10px; }
+        .bottom-garland { bottom: 10px; }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.95);
+            width: 100%; max-width: 440px;
+            border: 12px solid var(--pink-border);
+            border-radius: 50px; padding: 40px 25px;
+            box-shadow: 0 25px 50px rgba(255, 133, 161, 0.4);
+            position: relative; z-index: 10; text-align: center;
+            max-height: 90vh; overflow-y: auto;
+        }
+
+        .karaoke-box {
+            background: var(--premium-black); border-radius: 25px;
+            padding: 25px 15px; margin-bottom: 25px; border: 5px solid var(--gold);
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.5);
+        }
+
+        .score-text { color: var(--neon-green); font-family: 'Courier New', monospace; font-size: 1.8rem; margin: 0; font-weight: 900; }
+        h2 { font-family: 'Archivo Black', sans-serif; font-size: 1.3rem; color: var(--premium-black); line-height: 1.3; margin-bottom: 25px; text-transform: uppercase; }
+
+        .btn-stack { display: flex; flex-direction: column; gap: 15px; width: 100%; align-items: center; }
+
+        .btn {
+            padding: 20px; border-radius: 25px; border: 4px solid var(--premium-black);
+            font-family: 'Archivo Black', sans-serif; font-size: 1rem; cursor: pointer;
+            box-shadow: 0 8px 0 var(--premium-black); transition: transform 0.3s;
+            display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%;
+        }
+
+        .btn-yes { background: var(--neon-green); color: black; z-index: 20; position: relative; }
+        .btn-no { background: #ff4d6d; color: white; z-index: 10; position: relative; }
+        .btn-oops { background: #48dbfb; color: white; margin-top: 10px; }
+
         .section { display: none; }
-        .active { display: block; }
-        .stab-box { border: 4px dashed var(--pink-border); padding: 20px; border-radius: 25px; margin: 20px 0; background: #fffafa; font-size: 1.1rem; }
-        h2 { font-size: 1.4rem; color: var(--premium-black); line-height: 1.3; }
+        .active { display: block; animation: slideUp 0.4s ease-out; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        .date-badge { background: #ffecf0; color: #ff4d6d; padding: 8px 18px; border-radius: 50px; font-weight: 900; font-size: 0.8rem; display: inline-block; margin-bottom: 15px; border: 2px solid #ff85a1; }
+        .sub-p { font-size: 0.95rem; font-weight: 600; line-height: 1.6; margin: 15px 0; color: #333; }
+        .emoji-footer { font-size: 2.2rem; margin-top: 15px; letter-spacing: 8px; }
+
+        .stab-box { border: 4px dashed var(--pink-border); padding: 20px 10px; border-radius: 25px; margin: 20px 0; background: #fffafa; }
+        .riddle-box { text-align: left; font-size: 0.9rem; line-height: 1.6; background: #f9f9f9; border: 2px solid #eee; padding: 20px; border-radius: 20px; margin-bottom: 20px; color: #444; }
     </style>
 </head>
 <body>
+
     <div id="overlay" onclick="startApp()">
-        <div class="tap-text">TAP TO START 🤫</div>
-        <div style="font-size: 5rem;">🤫</div>
-        <p style="color: white; font-weight: 900; margin-top: 20px; letter-spacing: 2px;">kabahan ka na</p>
+        <div class="tap-text">Tap to start</div>
+        <div style="font-size: 6rem;">🤫</div>
+        <div class="kabahan-text">kabahan ka na</div>
     </div>
 
-    <div id="main-container" class="main-card">
-        <div id="sec1" class="section active">
+    <div class="garland top-garland">🌹✨🎀✨🌹✨🎀✨🌹✨🎀✨🌹</div>
+    <div class="garland bottom-garland">🍬🌈🎈🌈🍬🌈🎈🌈🍬🌈🎈🌈🍬</div>
+
+    <div class="main-card">
+        <div id="sec1" class="section">
+            <div class="emoji-footer">🌹💖✨</div>
             <h2>Bk8t ka andi2? Aplikabol lang tu sa may kabirthdey na kapatd akordeng sa rrl</h2>
-            <button class="btn" style="background: white;" onclick="next('sec2')">🔥 A. Tr2 the Fire aku na 2</button>
-            <button class="btn" style="background: white;" onclick="layas()">💨 B. Ligwak Garern</button>
+            <div class="btn-stack">
+                <button class="btn" style="background:#fff;" onclick="handleChoice('sec2')"><span>🔥</span> A. Tr2 the Fire aku na 2</button>
+                <button class="btn" style="background:#fff;" onclick="handleLayas()"><span>💨</span> B. Ligwak Garern</button>
+                <button class="btn" style="background:#fff;" onclick="handleLayas()"><span>❌</span> C. Ekis ka nak</button>
+                <button class="btn" style="background:#fff;" onclick="handleLayas()"><span>💅</span> D. Edi goodbye bading!</button>
+            </div>
+        </div>
+
+        <div id="layas-screen" class="section">
+            <div class="emoji-footer">🛫💨🤡</div>
+            <h1 style="color: #ff4d6d; font-family: 'Archivo Black';">Layas na, nak, better luck neck time!</h1>
+            <h3>#AuldLangSyne 🤙💅</h3>
+            <button class="btn" style="background: #48dbfb; color: white;" onclick="resetApp()">TRY AGAIN 🔄</button>
         </div>
 
         <div id="sec2" class="section">
+            <div class="emoji-footer">🙏👀✨</div>
             <h2>Sure ka diyan, nak? <br><span style="color: #ff4d6d;">Papa G is watching you</span></h2>
-            <button class="btn btn-yes" onclick="next('sec3')">🌧️ A. Tr2 the fire, tr2 the rain</button>
-            <button class="btn btn-no" onclick="layas()">🙄 B. Edi wow, layas na me</button>
+            <div class="btn-stack">
+                <button class="btn btn-yes" onclick="handleChoice('sec3')"><span>🌦️</span> A. Tr2 the fire, tr2 the rain</button>
+                <button class="btn btn-no" onclick="handleLayas()"><span>🙄</span> B. Edi wow, layas na me</button>
+            </div>
         </div>
 
         <div id="sec3" class="section">
-            <p style="font-weight: 900; color: #ff85a1;">FEBRUARY 14, 2026 🗓️</p>
-            <h2 id="prop-title">Hai pu, wil yu beh my balentimes? 💍</h2>
-            <button id="yes-btn" class="btn btn-yes" onclick="celebrate()">💖 YES</button>
-            <button id="no-btn" class="btn btn-no" onclick="moveNo()">💔 NO</button>
+            <div id="proposal-container">
+                <div class="date-badge">FEBRUARY 14, 2026 🗓️</div>
+                <p class="sub-p">Hai pu hehahaow, bk8t ka andi2 ha? Sondan moko nu 🏃‍♂️</p>
+                <h2 id="prop-title">Balit, ang tanung: <br>Hai pu, wil yu beh my balentimes? 💍</h2>
+                <div class="btn-stack" id="p-btns">
+                    <button id="yes-btn" class="btn btn-yes" onclick="celebrate()"><span>💖</span> YES</button>
+                    <button id="no-btn" class="btn btn-no" onclick="handleNo()"><span>💔</span> NO</button>
+                </div>
+                <p id="no-comment" style="margin-top: 20px; font-weight: 900; color: #ff4d6d; min-height: 24px;"></p>
+            </div>
         </div>
 
         <div id="sec4" class="section">
             <div class="karaoke-box">
-                <p style="color: white; margin: 0; font-size: 0.8rem;">SINGER: VALENTINE</p>
-                <p class="score-text">SCORE: 100 🎤</p>
+                <p class="score-text">KARAOKE SCORE: 100 🎤</p>
+                <p style="color:white; font-family: monospace; font-size: 0.75rem; margin-top:10px;">DATE SET: FEBRUARY 14, 2026 Afternoon 🌦️</p>
             </div>
-            <p><strong>Tenks Pu hehacbwbaia 😳🫶</strong></p>
+            
+            <p class="sub-p">🎶 Hey siri, play Thank God I Found you by Mariah Carey 🎶</p>
+            <p style="font-size: 1.1rem;"><strong>Tenks Pu hehacbwbaia 😳🫶</strong></p>
+            <p class="sub-p">Though, unahin mo muna self mo kasi <br><b>#NoPressureCookerItAtake</b> <br>and of course <b>#FamilyIsLove</b> ❤️</p>
+            
             <div class="stab-box">
-                <p style="margin: 0; color: #ff85a1; font-size: 0.9rem;">REVEALED:</p>
-                <b style="font-size: 1.3rem; letter-spacing: 1px;">STAB CODE: 122775110032</b>
+                <span style="font-size: 0.8rem; color: #ff85a1; font-weight: 900; letter-spacing: 2px;">STAB CODE 🎟️</span><br>
+                <span style="font-size: 1.4rem; font-family: 'Archivo Black';">Code: 122775110032</span><br>
+                <span style="font-size: 0.65rem; color: #666; font-weight: 700; white-space: nowrap; display: block; letter-spacing: 0.2px;">Please claim and remember your stab</span>
             </div>
-            <p style="font-style: italic;">Sino ang kalaban ni Jollibee? 🐝</p>
-            <p style="font-size: 0.7rem; color: #999; margin-top: 20px;">#NoPressureCookerItAtake #OneVision2026</p>
-        </div>
 
-        <div id="layas-screen" class="section">
-            <h1 style="font-size: 3rem;">🤡</h1>
-            <h1>Layas na, nak!</h1>
-            <button class="btn" style="background: white;" onclick="location.reload()">TRY AGAIN</button>
+            <div class="riddle-box">
+                If deemed as confirmed, kindly answer the following: <br>
+                <b>Sino ang kalaban ni Jollibee? 🐝</b><br><br>
+                Text and send your answers to any social media sites (e.g. notes) platform to make your form validated at your discretion. 📝
+            </div>
+            
+            <div class="emoji-footer">💐🌈✨🍬🎀🎊🌹💖</div>
         </div>
     </div>
 
+    <audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2571/2571-preview.mp3"></audio>
+    <audio id="grandSound" src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3"></audio>
+
     <script>
-        function startApp() { 
-            document.getElementById('overlay').style.display = 'none'; 
-            document.getElementById('main-container').style.display = 'block'; 
+        let noIdx = 0; let yScale = 1; let yOffset = 0;
+        const noMsgs = ["Sure na po? 🤔", "balit gad 🤨", "notified? ✅", "Sarado gate 🚪", "Brian McKnight 🎶"];
+
+        function startApp() {
+            document.getElementById('clickSound').play().then(() => { document.getElementById('clickSound').pause(); });
+            document.getElementById('overlay').style.display = 'none';
+            show('sec1');
         }
-        function next(id) { 
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); 
-            document.getElementById(id).classList.add('active'); 
+
+        function show(id) {
+            document.querySelectorAll('.section').forEach(s => s.style.display = 'none');
+            const el = document.getElementById(id);
+            el.classList.add('active');
+            el.style.display = 'block';
         }
-        function layas() { next('layas-screen'); }
-        
-        let scale = 1;
-        function moveNo() { 
-            scale += 0.5; 
-            document.getElementById('yes-btn').style.transform = `scale(${scale})`;
-            document.getElementById('no-btn').style.transform = `translateY(${scale * 20}px)`;
+
+        function handleChoice(id) { document.getElementById('clickSound').currentTime = 0; document.getElementById('clickSound').play(); show(id); }
+        function handleLayas() { document.getElementById('clickSound').currentTime = 0; document.getElementById('clickSound').play(); show('layas-screen'); }
+        function resetApp() { location.reload(); }
+
+        function handleNo() {
+            document.getElementById('clickSound').currentTime = 0; document.getElementById('clickSound').play();
+            if (noIdx < noMsgs.length) {
+                document.getElementById('no-comment').innerText = noMsgs[noIdx];
+                yScale += 0.5;
+                yOffset += 45; 
+                document.getElementById('yes-btn').style.transform = `scale(${yScale})`;
+                document.getElementById('no-btn').style.transform = `translateY(${yOffset}px)`;
+                noIdx++;
+            } else {
+                document.getElementById('prop-title').innerHTML = "Okay, I understand... 😔";
+                document.getElementById('p-btns').innerHTML = `
+                    <button class="btn btn-oops" onclick="resetProposal()"><span>🏃‍♂️</span> Oops, I didn't mean that!</button>
+                `;
+            }
         }
-        function celebrate() { next('sec4'); }
+
+        function resetProposal() {
+            document.getElementById('clickSound').play();
+            noIdx = 0; yScale = 1; yOffset = 0;
+            document.getElementById('prop-title').innerHTML = "Balit, ang tanung: <br>Hai pu, wil yu beh my balentimes? 💍";
+            document.getElementById('p-btns').innerHTML = `
+                <button id="yes-btn" class="btn btn-yes" onclick="celebrate()"><span>💖</span> YES</button>
+                <button id="no-btn" class="btn btn-no" onclick="handleNo()"><span>💔</span> NO</button>
+            `;
+        }
+
+        function celebrate() {
+            document.getElementById('grandSound').play();
+            show('sec4');
+            const end = Date.now() + 6000;
+            const emojis = ['❤️', '✨', '💖', '🍬', '🎊', '🎀', '🌹'];
+            (function frame() {
+                const e = document.createElement('div');
+                e.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                e.style.position = 'fixed'; e.style.left = Math.random() * 100 + 'vw';
+                e.style.top = '-50px'; e.style.fontSize = (Math.random() * 20 + 20) + 'px'; e.style.zIndex = '1000';
+                e.style.transition = 'top 3s linear';
+                document.body.appendChild(e);
+                setTimeout(() => { e.style.top = '110vh'; }, 50);
+                setTimeout(() => e.remove(), 3500);
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
     </script>
 </body>
 </html>
